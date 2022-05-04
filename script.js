@@ -17,15 +17,18 @@ function validate(input) {
             addInputInValid(input);
             input.setCustomValidity('Minimum 8 characters with one lower, upper and symbol must be present.');
             input.reportValidity();
-        } else if (passwordInput.value !== confirmPasswordInput.value) {
+        } else if (passwordInput.value !== confirmPasswordInput.value && confirmPasswordInput.value !== '') {
             input.setCustomValidity('Passwords do not match');
             input.reportValidity();
             addInputInValid(passwordInput);
+            if(confirmPasswordInput.value !== '')
             addInputInValid(confirmPasswordInput);
         } else {
             passwordInput.setCustomValidity('');
             confirmPasswordInput.setCustomValidity('');
+            if (passwordInput.value !== '')
             addInputValid(passwordInput);
+            if (confirmPasswordInput.value !== '')
             addInputValid(confirmPasswordInput);
         }
     } else if (!input.checkValidity()) {
