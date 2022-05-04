@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    /* outline: 1px solid black; */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    background-color: #333;
+    color: #fff;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    width: 350px;
+    height: 65px;
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    border-bottom: 0.1px solid #333;
+}
+
+input:placeholder-shown {
+    background-color: #eee;
+}
+
+
+input:focus{
+    background-color: #fff;
+}
+
+input,
+button {
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding: 1rem;
+}
+
+button {
+    cursor: pointer;
+    background-color: #41D873;
+    border: none;
+    margin-top: 15px;
+    color: #fff;
+}
+
+button:active {
+    opacity: 0.9;
+}
+
+input.valid + span {
+    position: relative;
+}
+
+input.valid + span::after {
+    content: '\2714';
+    position: absolute;
+    top: -45px;
+    right: 10px;
+    height: 24px;
+    width: 24px;
+    background-color: #41D873;
+    color: white;
+    border-radius: 50%;
+    z-index: 10;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+input.invalid + span {
+    position: relative;
+}
+
+input.invalid + span::before {
+    content: '\292B';
+    position: absolute;
+    top: -45px;
+    right: 10px;
+    height: 24px;
+    width: 24px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    z-index: 10;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
