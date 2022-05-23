@@ -10,6 +10,7 @@ const inputElements = document.querySelectorAll('input');
 const patterns = {
     email: /^([a-zA-Z\d\.-]+)@([a-zA-Z\d]+)\.([a-zA-Z\d]{2,8})(\.[a-zA-Z\d]{2,8})?$/,
     pincode: /^[\d]{6}$/,
+    country: /^[a-zA-Z]+$/,
 };
 
 inputElements.forEach(input => {
