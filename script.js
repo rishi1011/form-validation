@@ -7,54 +7,50 @@ const confirmPasswordInput = document.getElementById('check');
 const form = document.getElementById('form');
 const inputElements = document.querySelectorAll('input');
 
+const patterns = {
+    email: /^([a-zA-Z\d\.-]+)@([a-zA-Z\d]+)\.([a-zA-Z\d]{2,8})(\.[a-zA-Z\d]{2,8})?$/,
+    pincode: /^[\d]{6}$/,
+};
+
 inputElements.forEach(input => {
     input.addEventListener('keyup', () => validate(input));
 });
 
 function validate(input) {
     if ((input === confirmPasswordInput || input === passwordInput)) {
-        if (input === passwordInput && confirmPasswordInput.value === '' && !satisfyPasswordConstraits(input.value)) {
+        if (input === passwordInput && confirmPasswordInput.value === '' && !satisfyPasswordConstraints(input.value)) {
             addInputInValid(input);
-            input.setCustomValidity('Minimum 8 characters with one lower, upper and symbol must be present.');
+            input.setCustomValidity('Minimum 8 characters and maximum 20 characters with one lower, upper and symbol must be present.');
             input.reportValidity();
         } else if (passwordInput.value !== confirmPasswordInput.value && confirmPasswordInput.value !== '') {
             input.setCustomValidity('Passwords do not match');
             input.reportValidity();
             addInputInValid(passwordInput);
-            if(confirmPasswordInput.value !== '')
-            addInputInValid(confirmPasswordInput);
+            if (confirmPasswordInput.value !== '')
+                addInputInValid(confirmPasswordInput);
         } else {
             passwordInput.setCustomValidity('');
             confirmPasswordInput.setCustomValidity('');
             if (passwordInput.value !== '')
-            addInputValid(passwordInput);
+                addInputValid(passwordInput);
             if (confirmPasswordInput.value !== '')
-            addInputValid(confirmPasswordInput);
+                addInputValid(confirmPasswordInput);
         }
-    } else if (!input.checkValidity()) {
-        input.reportValidity();
-        addInputInValid(input);
     } else {
-        addInputValid(input);
+        if (patterns[input.name].test(input.value)) {
+            addInputValid(input);
+        } else {
+            addInputInValid(input);
+        }
     }
 }
 
 function addInputValid(input) {
-    input.classList.add('valid');
-
-    //if it has invalid class, remove it
-    if (input.classList.contains('invalid')) {
-        input.classList.remove('invalid');
-    }
+    input.className = 'valid';
 }
 
 function addInputInValid(input) {
-    input.classList.add('invalid');
-
-    //if it has valid class, remove it
-    if (input.classList.contains('valid')) {
-        input.classList.remove('valid');
-    }
+    input.className = 'invalid';
 }
 
 form.addEventListener('submit', (e) => {
@@ -62,6 +58,23 @@ form.addEventListener('submit', (e) => {
 });
 
 
-function satisfyPasswordConstraits(value) {
-    return value.length >= 8 ;
+function satisfyPasswordConstraints(value) {
+    if (value.length < 8 || value.length > 20) return false;
+
+    let hasUpper = false;
+    let hasLower = false;
+    let hasSymbols = false;
+
+    for (let i = 0; i < value.length; i++) {
+        let c = value[i];
+        if (/^[A-Z]$/.test(c)) {
+            hasUpper = true;
+        } else if (/^[a-z]$/.test(c)) {
+            hasLower = true;
+        } else if (/^[!@#$%^&*()_]$/.test(c)) {
+            hasSymbols = true;
+        }
+    }
+
+    return hasLower && hasUpper && hasSymbols;
 }
